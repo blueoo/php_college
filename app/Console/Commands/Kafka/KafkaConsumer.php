@@ -22,7 +22,6 @@ class KafkaConsumer extends Command
 
     public function handle()
     {
-
         $rk = new \RdKafka\Consumer();
         $rk->setLogLevel(LOG_DEBUG);
         $rk->addBrokers("10.19.2.223:9092,10.19.2.224:9092,10.19.2.225:9092");
