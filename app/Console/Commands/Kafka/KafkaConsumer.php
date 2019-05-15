@@ -22,7 +22,6 @@ class KafkaConsumer extends Command
 
     public function handle()
     {
-        var_dump('handle');
 
         $rk = new \RdKafka\Consumer();
         $rk->setLogLevel(LOG_DEBUG);
