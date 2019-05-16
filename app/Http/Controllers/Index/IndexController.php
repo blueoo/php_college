@@ -13,6 +13,8 @@ use App\Http\Controllers\Controller;
 use App\Services\LogService\LogService;
 use App\Services\KafkaService\KafkaProducerFactory;
 use App\Libraries\ConsistentHash\ConsistentHashFactory;
+use Illuminate\Support\Facades\Redis;
+
 class IndexController extends Controller
 {
     public function __construct()
@@ -20,6 +22,8 @@ class IndexController extends Controller
 
 
     }
+
+
 
     /**
      * @description: 简化Flexihash的一致性hash实现
@@ -129,10 +133,16 @@ class IndexController extends Controller
         return "test";
 
     }
+    public function testRedis()
+    {
+        Redis::set('test_name_sen', 'Taylor!!');
+        $name = Redis::get('test_name_sen');
+        var_dump($name);
 
+        return 'testRedis';
+    }
     public function export()
     {
-
 
         return 'export';
     }

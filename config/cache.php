@@ -72,6 +72,10 @@ return [
             'driver' => 'redis',
             'connection' => 'default',
         ],
+        'redis-sentinel' => [
+            'driver' => 'redis-sentinel',
+            'connection' => 'default',
+        ],
 
     ],
 

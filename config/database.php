@@ -33,14 +33,14 @@ return [
 
     'connections' => [
         'mongodb' => [
-            'driver'   => 'mongodb',
-            'host'     => env('MONGO_HOST',null),
-            'port'     => env('MONGO_PORT',null),
-            'database' => env('MONGO_DB',null),
-            'username' => env('MONGO_USER',null),
-            'password' => env('MONGO_PWD',null),
+            'driver' => 'mongodb',
+            'host' => env('MONGO_HOST', null),
+            'port' => env('MONGO_PORT', null),
+            'database' => env('MONGO_DB', null),
+            'username' => env('MONGO_USER', null),
+            'password' => env('MONGO_PWD', null),
             'options' => [
-                'database' =>  env('MONGO_DB')
+                'database' => env('MONGO_DB')
             ]
         ],
 
@@ -109,17 +109,29 @@ return [
     |
     */
 
-    'redis' => [
-
+    'redis' => (env('REDIS_LOCAL', 0) == 0) ? [
         'client' => 'predis',
-
+        'queue' => '{default}',
         'default' => [
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),
             'database' => 0,
+        ]
+    ] : [
+        'cluster' => false,
+        'queue' => '{default}',
+        'options' => [
+            'replication' => 'sentinel',
+            'service' => env('REDIS_SENTINEL_SERVICE', null),
+            'parameters' => [
+                'password' => env('REDIS_PASSWORD', null),
+                'database' => 0,
+            ],
+            'sentinel_timeout' => 1.0,
+            'update_sentinels' => true,
         ],
-
+        'default' => explode(',', env('REDIS_SENTINEL_HOST', null)),
     ],
 
 ];

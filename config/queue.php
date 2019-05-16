@@ -63,6 +63,12 @@ return [
             'queue' => 'default',
             'retry_after' => 90,
         ],
+        'redis-sentinel' => [
+            'driver' => 'redis-sentinel',
+            'connection' => 'default',
+            'queue' => 'default',
+            'retry_after' => 90
+        ],
 
     ],
 
