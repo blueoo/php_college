@@ -31,9 +31,9 @@ App\Services\KafkaService\KafkaConsumer
 App\Services\LogService\LogService  
 示例代码位置：  
 App\Http\Controllers\Index\testLog  
-使用说明:
+使用说明:  
 同步方法直接使用；  
-异步方法需要先启动队列消费者，如下命令（timeout和重试可以视情况省略）： 
+异步方法需要先启动队列消费者，如下命令（timeout和重试可以视情况省略）：   
 php artisan queue:work --timeout=60 --tries=3 --queue=log_job
 
 
