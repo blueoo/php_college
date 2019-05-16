@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Route::prefix('index')->group(function () {
     Route::any('/kafkaProducer',['as' => 'view', 'uses'=>'Index\IndexController@kafkaProducer']);
+    Route::any('/testSwoole', 'Index\IndexController@testSwoole');
     Route::any('/testRedis', 'Index\IndexController@testRedis');
     Route::any('/testLog', 'Index\IndexController@testLog');
     Route::any('/testConsistentHash', 'Index\IndexController@testConsistentHash');

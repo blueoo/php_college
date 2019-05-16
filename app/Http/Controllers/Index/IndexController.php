@@ -14,7 +14,7 @@ use App\Services\LogService\LogService;
 use App\Services\KafkaService\KafkaProducerFactory;
 use App\Libraries\ConsistentHash\ConsistentHashFactory;
 use Illuminate\Support\Facades\Redis;
-
+use App\Console\Commands\Swoole\SwooleTest;
 class IndexController extends Controller
 {
     public function __construct()
@@ -23,7 +23,16 @@ class IndexController extends Controller
 
     }
 
-
+    /**
+     * @description:swoole进程池 投递任务
+     * @author zouhuaqiu
+     * @date 2019/5/16
+     */
+    public function testSwoole()
+    {
+        SwooleTest::dispatch(SwooleTest::$queueKey,json_encode(['jay'=>'hello']));
+        return 'testSwoole';
+    }
 
     /**
      * @description: 简化Flexihash的一致性hash实现
@@ -133,6 +142,7 @@ class IndexController extends Controller
         return "test";
 
     }
+
     public function testRedis()
     {
         Redis::set('test_name_sen', 'Taylor!!');
@@ -141,6 +151,7 @@ class IndexController extends Controller
 
         return 'testRedis';
     }
+
     public function export()
     {
 

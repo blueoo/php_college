@@ -44,5 +44,15 @@ App\Libraries\ConsistentHash\ConsistentHashFactory
 示例代码： 
 App\Http\Controllers\Index\testConsistentHash  
 
++ **基于swoole Process Pool的组件封装**  
+>主要代码:  
+App\Console\Commands\Swoole\BaseProcessPool    
+示例代码：  
+App\Console\Commands\Swoole\SwooleTest  
+App\Http\Controllers\Index\testSwoole  
+优雅停止swoole进程组：
+App\Console\Commands\Swoole\SwooleCtrl  
+  
+
 
 
