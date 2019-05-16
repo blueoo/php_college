@@ -32,11 +32,16 @@ return [
     */
 
     'connections' => [
-
-        'sqlite' => [
-            'driver' => 'sqlite',
-            'database' => env('DB_DATABASE', database_path('database.sqlite')),
-            'prefix' => '',
+        'mongodb' => [
+            'driver'   => 'mongodb',
+            'host'     => env('MONGO_HOST',null),
+            'port'     => env('MONGO_PORT',null),
+            'database' => env('MONGO_DB',null),
+            'username' => env('MONGO_USER',null),
+            'password' => env('MONGO_PWD',null),
+            'options' => [
+                'database' =>  env('MONGO_DB')
+            ]
         ],
 
         'mysql' => [

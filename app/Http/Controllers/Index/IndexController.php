@@ -10,7 +10,7 @@ namespace App\Http\Controllers\Index;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Services\LogService\LogService;
 use App\Services\KafkaService\KafkaProducerFactory;
 
 class IndexController extends Controller
@@ -22,6 +22,28 @@ class IndexController extends Controller
     }
 
 
+    /**
+     * @description:LogService 测试
+     * @author zouhuaqiu
+     * @date 2019/5/16
+     */
+    public function testLog()
+    {
+        $col_name = 'demo_log_' . date('Ym');
+        $data = [
+            'type' => 'test_log',
+            'log' => ['hello'=>'world']
+        ];
+        //异步写log
+        LogService::asyncLog($data, $col_name);
+        //同步写log
+        $data = [
+            'type' => 'test_log_2',
+            'log' => ['hello'=>'world!!!']
+        ];
+        LogService::mongoLog($data, $col_name);
+        return 'testlog';
+    }
 
 
     /**
@@ -63,12 +85,12 @@ class IndexController extends Controller
             'login' => '*****',
             // Rabbitmq 密码
             'password' => '******',
-            'vhost'=>'SYS_SA'
+            'vhost' => 'SYS_SA'
         ];
 
         //创建连接和channel
         $conn = new \AMQPConnection($conn);
-        if(!$conn->connect()) {
+        if (!$conn->connect()) {
             die("Cannot connect to the broker!\n");
         }
         $channel = new \AMQPChannel($conn);
@@ -86,8 +108,7 @@ class IndexController extends Controller
         // 设置交换机是否持久化消息
         $ex->setFlags(AMQP_DURABLE);
 
-        $ex->publish(json_encode(['hello'=>'world']),$routingKey);
-
+        $ex->publish(json_encode(['hello' => 'world']), $routingKey);
 
 
         return "test";
