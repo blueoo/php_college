@@ -12,13 +12,28 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\LogService\LogService;
 use App\Services\KafkaService\KafkaProducerFactory;
-
+use App\Libraries\ConsistentHash\ConsistentHashFactory;
 class IndexController extends Controller
 {
     public function __construct()
     {
 
 
+    }
+
+    /**
+     * @description: 简化Flexihash的一致性hash实现
+     * @return mixed
+     * @author zouhuaqiu
+     * @date 2019/5/16
+     */
+    public function testConsistentHash()
+    {
+        $total = 100; // 总的分表数目
+        $user_id = 102321; // 这里举个user_id的例子
+        $table_num = ConsistentHashFactory::getHashFactory($total)->lookup($user_id);
+
+        return $table_num;
     }
 
 
@@ -32,14 +47,14 @@ class IndexController extends Controller
         $col_name = 'demo_log_' . date('Ym');
         $data = [
             'type' => 'test_log',
-            'log' => ['hello'=>'world']
+            'log' => ['hello' => 'world']
         ];
         //异步写log
         LogService::asyncLog($data, $col_name);
         //同步写log
         $data = [
             'type' => 'test_log_2',
-            'log' => ['hello'=>'world!!!']
+            'log' => ['hello' => 'world!!!']
         ];
         LogService::mongoLog($data, $col_name);
         return 'testlog';
@@ -121,4 +136,12 @@ class IndexController extends Controller
 
         return 'export';
     }
+
+    public function import()
+    {
+
+        return 'import';
+    }
+
+
 }
