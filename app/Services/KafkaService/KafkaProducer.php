@@ -15,6 +15,14 @@ class KafkaProducer
     private $producer;
     private $topic;
 
+    /**
+     * @description:初始化生产者，从config/kafka.php加载配置
+     * @param string $conn
+     * @param array $config
+     * @return $this
+     * @author zouhuaqiu
+     * @date 2019/5/16
+     */
     public function initProducer($conn = 'default', $config = [])
     {
         $brokers = config('kafka.connections.' . $conn . '.brokers');
@@ -33,6 +41,15 @@ class KafkaProducer
         return $this;
     }
 
+    /**
+     * @description:设置topic和queue不一样，topic可以同时被多个消费者订阅
+     * @param $topic
+     * @param array $topicConfig
+     * @return $this
+     * @throws \Exception
+     * @author zouhuaqiu
+     * @date 2019/5/16
+     */
     public function setTopic($topic, $topicConfig = [])
     {
         if (is_null($this->producer)) {
@@ -61,6 +78,13 @@ class KafkaProducer
         return $this;
     }
 
+    /**
+     * @description:Kafka轮询一次就相当于拉取（poll）一定时间段broker中可消费的数据，在这个指定时间段里拉取，时间到了就立刻返回数据。
+     * @param $time_ms
+     * @return $this
+     * @author zouhuaqiu
+     * @date 2019/5/16
+     */
     public function poll($time_ms)
     {
         $this->topic->poll($time_ms);
