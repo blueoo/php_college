@@ -1,0 +1,7 @@
+formatter.name: pretty
+suites:
+    main:
+        namespace: Monospice\SpicyIdentifiers\Tools
+        psr4_prefix: Monospice\SpicyIdentifiers\Tools
+        spec_path: tests
+        spec_prefix: Spec

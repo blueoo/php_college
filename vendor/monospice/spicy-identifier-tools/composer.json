@@ -1,0 +1,29 @@
+{
+    "name": "monospice/spicy-identifier-tools",
+    "description": "An easy way to parse, convert, and format identifier names.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cy Rossignol",
+            "email": "cy.rossignol@yahoo.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.7",
+        "phpspec/phpspec": "~2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Monospice\\SpicyIdentifiers\\Tools\\": "src/Tools"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "tests\\": "tests/"
+         }
+    }
+}

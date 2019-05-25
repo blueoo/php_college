@@ -15,12 +15,32 @@ use App\Services\KafkaService\KafkaProducerFactory;
 use App\Libraries\ConsistentHash\ConsistentHashFactory;
 use Illuminate\Support\Facades\Redis;
 use App\Console\Commands\Swoole\SwooleTest;
+use App\Console\Commands\Swoole\SwooleClientSimple;
+use App\Console\Commands\Swoole\SwooleClientLib;
+
 class IndexController extends Controller
 {
-    public function __construct()
+    private $client;
+
+    public function __construct(
+        SwooleClientSimple $client
+    )
+    {
+        $this->client = $client;
+
+    }
+
+    public function testClient()
     {
 
+        try {
 
+            $this->client->longConnect(json_encode(['hello' => 'world']));
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+
+        return "hh";
     }
 
     /**
@@ -30,7 +50,7 @@ class IndexController extends Controller
      */
     public function testSwoole()
     {
-        SwooleTest::dispatch(SwooleTest::$queueKey,json_encode(['jay'=>'hello']));
+        SwooleTest::dispatch(SwooleTest::$queueKey, json_encode(['jay' => 'hello']));
         return 'testSwoole';
     }
 

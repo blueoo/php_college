@@ -54,5 +54,12 @@ App\Http\Controllers\Index\testSwoole
 App\Console\Commands\Swoole\SwooleCtrl  
   
 
-
-
++ **基于swoole client/Server 的包含拆包逻辑的简单例子**  
+>主要代码:  
+App\Console\Commands\Swoole\SwooleServerSimple    
+App\Console\Commands\Swoole\SwooleClientSimple 
+示例代码：  
+App\Http\Controllers\Index\testClient   
+使用说明：需要先启动服务器:
+ php artisan command:swoole_server
+ 

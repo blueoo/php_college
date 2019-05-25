@@ -11,11 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
 Route::prefix('index')->group(function () {
+    Route::any('/testClient', 'Index\IndexController@testClient');
     Route::any('/kafkaProducer',['as' => 'view', 'uses'=>'Index\IndexController@kafkaProducer']);
     Route::any('/testSwoole', 'Index\IndexController@testSwoole');
     Route::any('/testRedis', 'Index\IndexController@testRedis');
