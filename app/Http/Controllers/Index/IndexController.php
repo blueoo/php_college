@@ -35,6 +35,9 @@ class IndexController extends Controller
 
         try {
 
+            $this->client->singleSend(json_encode(['hello' => 'world']));
+
+
             $this->client->longConnect(json_encode(['hello' => 'world']));
         } catch (\Exception $e) {
             echo $e->getMessage();
