@@ -56,7 +56,7 @@ class KafkaProducer
             throw new \Exception('producer must be init');
         }
         if (!empty($topicConfig)) {
-            $topicConf = new RdKafka\TopicConf();
+            $topicConf = new \RdKafka\TopicConf();
             foreach ($topicConfig as $key => $value) {
                 $topicConf->set($key, $value);
             }
@@ -87,7 +87,7 @@ class KafkaProducer
      */
     public function poll($time_ms)
     {
-        $this->topic->poll($time_ms);
+        $this->producer->poll($time_ms);
         return $this;
     }
 

@@ -14,56 +14,56 @@ class KafkaConsumer
     private $consumer;
     private $topic;
 
-    public function initConsumer($conn = 'default', $config = [])
+    public function initConsumer($conn = 'default', $config = [], $TopicConfig = [])
     {
         $brokers = config('kafka.connections.' . $conn . '.brokers');
         $logLevel = config('kafka.connections.' . $conn . '.logLevel');
+
+        $conf = new \RdKafka\Conf();
+
+        $conf->setRebalanceCb(function (\RdKafka\KafkaConsumer $kafka, $err, array $partitions = null) {
+            switch ($err) {
+                case RD_KAFKA_RESP_ERR__ASSIGN_PARTITIONS:
+//                    echo "Assign: ";
+//                    var_dump($partitions);
+                    $kafka->assign($partitions);
+                    break;
+
+                case RD_KAFKA_RESP_ERR__REVOKE_PARTITIONS:
+//                    echo "Revoke: ";
+//                    var_dump($partitions);
+                    $kafka->assign(NULL);
+                    break;
+
+                default:
+                    throw new \Exception($err);
+            }
+        });
         if (!empty($config)) {
-            $conf = new \RdKafka\Conf();
             foreach ($config as $key => $value) {
                 $conf->set($key, $value);
             }
-            $this->consumer = new \RdKafka\Consumer($conf);
-        } else {
-            $this->consumer = new \RdKafka\Consumer();
         }
-        $this->consumer->setLogLevel($logLevel);
-        $this->consumer->addBrokers($brokers);
-        return $this;
-    }
-
-    public function setTopic($topic, $topicConfig = [])
-    {
-        if (is_null($this->consumer)) {
-            throw new \Exception('Consumer must be init');
-        }
-        if (!empty($topicConfig)) {
-            $topicConf = new RdKafka\TopicConf();
-            foreach ($topicConfig as $key => $value) {
+        $conf->set('metadata.broker.list', $brokers);
+        $topicConf = new \RdKafka\TopicConf();
+        if (!empty($TopicConfig)) {
+            foreach ($TopicConfig as $key => $value) {
                 $topicConf->set($key, $value);
             }
-            $this->topic = $this->consumer->newTopic($topic, $topicConf);
-        } else {
-
-            $this->topic = $this->consumer->newTopic($topic);
         }
+        $conf->setDefaultTopicConf($topicConf);
+
+        $this->consumer = new \RdKafka\KafkaConsumer($conf);
+
         return $this;
     }
 
-    /**
-     * @description:设置消费的分区和
-     * @param $partition
-     * @param $offsetMode
-     * @return $this
-     * @author zouhuaqiu
-     * @date 2019/5/15
-     */
-    public function consumeStart($partition, $offsetMode)
+    public function setTopic(array $topic)
     {
-
-        $this->topic->consumeStart($partition, $offsetMode);
+        $this->consumer->subscribe($topic);
         return $this;
     }
+
 
     /**
      * @description:获取message
@@ -73,10 +73,10 @@ class KafkaConsumer
      * @author zouhuaqiu
      * @date 2019/5/15
      */
-    public function consume($partition, $timeout)
+    public function consume($timeout)
     {
 
-        return $this->topic->consume($partition, $timeout);
+        return $this->consumer->consume($timeout);
     }
 
 }

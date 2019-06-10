@@ -16,6 +16,7 @@
 //});
 
 Route::prefix('index')->group(function () {
+    Route::any('/testEureka', 'Index\IndexController@testEureka');
     Route::any('/testClient', 'Index\IndexController@testClient');
     Route::any('/kafkaProducer',['as' => 'view', 'uses'=>'Index\IndexController@kafkaProducer']);
     Route::any('/testSwoole', 'Index\IndexController@testSwoole');

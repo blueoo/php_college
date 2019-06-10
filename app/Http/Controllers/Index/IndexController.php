@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Redis;
 use App\Console\Commands\Swoole\SwooleTest;
 use App\Console\Commands\Swoole\SwooleClientSimple;
 use App\Console\Commands\Swoole\SwooleClientLib;
-
+use Eureka\EurekaClient;
 class IndexController extends Controller
 {
     private $client;
@@ -30,15 +30,32 @@ class IndexController extends Controller
 
     }
 
+
+    public function testEureka()
+    {
+        $client = new EurekaClient([
+            'eurekaDefaultUrl' => 'http://10.19.2.76:8761/eureka',
+            'hostName' => 'zhq.demo.com',
+            'appName' => 'php_service',
+            'ip' => '10.19.2.122',
+            'port' => ['80', true],
+            'homePageUrl' => 'http://zhq.demo.com',
+            'statusPageUrl' => 'http://zhq.demo.com/info',
+            'healthCheckUrl' => 'http://zhq.demo.com/health'
+        ]);
+        $client->register();
+        return 'test';
+    }
+
     public function testClient()
     {
 
         try {
 
-            $this->client->singleSend(json_encode(['hello' => 'world']));
+            $this->client->singleSend(str_repeat('A', 1000));
 
 
-            $this->client->longConnect(json_encode(['hello' => 'world']));
+//            $this->client->longConnect(json_encode(['hello' => 'world']));
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
@@ -106,10 +123,9 @@ class IndexController extends Controller
      */
     public function kafkaProducer(Request $request)
     {
-        $producer = KafkaProducerFactory::factory('test_test');
+        $producer = KafkaProducerFactory::factory('sa_ae_product');
 
         $producer->produceMessage('ee');
-
         return 'hello';
     }
 
@@ -129,14 +145,14 @@ class IndexController extends Controller
 
         $conn = [
             // Rabbitmq 服务地址
-            'host' => '127.0.0.1',
+            'host' => '10.19.2.122',
             // Rabbitmq 服务端口
             'port' => '5672',
             // Rabbitmq 帐号
-            'login' => '*****',
+            'login' => 'phper',
             // Rabbitmq 密码
-            'password' => '******',
-            'vhost' => 'SYS_SA'
+            'password' => 'phper',
+            'vhost'=>'/'
         ];
 
         //创建连接和channel
@@ -146,22 +162,18 @@ class IndexController extends Controller
         }
         $channel = new \AMQPChannel($conn);
 
-        // 用来绑定交换机和队列
-        $routingKey = 'productPrice_EBAY';
+        $k_route = 'key_1';
 
         $ex = new \AMQPExchange($channel);
         //  交换机名称
         $exchangeName = 'amq.direct';
         $ex->setName($exchangeName);
-
         // 设置交换机类型
         $ex->setType(AMQP_EX_TYPE_DIRECT);
         // 设置交换机是否持久化消息
         $ex->setFlags(AMQP_DURABLE);
 
-        $ex->publish(json_encode(['hello' => 'world']), $routingKey);
-
-
+        $ex->publish('hello_world', $k_route);
         return "test";
 
     }
@@ -177,7 +189,7 @@ class IndexController extends Controller
 
     public function export()
     {
-
+        phpinfo();
         return 'export';
     }
 

@@ -7318,5 +7318,58 @@
             "redis",
             "sentinel"
         ]
+    },
+    {
+        "name": "piwvh/php-eureka",
+        "version": "0.0.2",
+        "version_normalized": "0.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/piwvh/php-eureka.git",
+            "reference": "5528a5c8dc7f90020142ee19e8dce5e29df0051c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/piwvh/php-eureka/zipball/5528a5c8dc7f90020142ee19e8dce5e29df0051c",
+            "reference": "5528a5c8dc7f90020142ee19e8dce5e29df0051c",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
+        },
+        "require": {
+            "guzzlehttp/guzzle": "^6.3",
+            "php": ">=5.4.0"
+        },
+        "time": "2018-04-28 18:45:05",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Eureka\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Hamid Mohayeji",
+                "email": "h.mohayeji@gmail.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "A PHP client for Spring Cloud Eureka discovery server.",
+        "homepage": "http://hamid.work",
+        "keywords": [
+            "discovery server",
+            "eureka",
+            "php",
+            "spring cloud"
+        ]
     }
 ]

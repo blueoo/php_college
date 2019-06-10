@@ -17,6 +17,7 @@
         "maatwebsite/excel": "^3.1",
         "monospice/laravel-redis-sentinel-drivers": "^2.5",
         "paragonie/random_compat": "2.0",
+        "piwvh/php-eureka": "^0.0.2",
         "predis/predis": "^1.1",
         "zircote/swagger-php": "^3.0"
     },

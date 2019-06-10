@@ -35,10 +35,9 @@ class SwooleClientSimple extends Command
 
         // 这里是连接
         $timeout = 10;
-        if (!$client->connect('10.19.2.76', 9999, $timeout)) {
+        if (!$client->connect('10.19.2.122', 9999, $timeout)) {
             throw new \Exception('connect error');
         }
-
         // 发送前判断一下是否已经连接上
         if ($client->isConnected()) {
             // 发送的时候将body的长度添加到包头

@@ -30,11 +30,12 @@ class KafkaConsumer extends Command
 
     public function handle()
     {
-        $consumer = KafkaConsumerFactory::factory('test_test');
-        $consumer->consumeStart(0, RD_KAFKA_OFFSET_STORED);
+        $config = [];
+        $config['group.id'] = 'test_demo';
+        $topic_config['auto.offset.reset'] = 'earliest';
+        $consumer = KafkaConsumerFactory::factory(['sa_ae_product'], 'default', $config, $topic_config);
         while (true) {
-
-            $msg = $consumer->consume(0, 1000);
+            $msg = $consumer->consume(120 * 1000);
             if (null === $msg) {
                 continue;
             } elseif ($msg->err) {

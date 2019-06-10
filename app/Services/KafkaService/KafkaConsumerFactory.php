@@ -19,13 +19,13 @@ class KafkaConsumerFactory
 {
     private static $kafkaConsumerMap = [];
 
-    public static function factory($topic, $conn = 'default',$config=[],$topicConfig = [])
+    public static function factory(array $topic, $conn = 'default', $config = [], $TopicConfig = [])
     {
-        $key = $topic . $conn;
+        $key = $topic[0]. $conn;
         if (!array_key_exists($key, self::$kafkaConsumerMap)) {
             $producer = new KafkaConsumer();
-            $producer->initConsumer($conn,$config);
-            $producer->setTopic($topic,$topicConfig);
+            $producer->initConsumer($conn, $config, $TopicConfig);
+            $producer->setTopic($topic);
             self::$kafkaConsumerMap[$key] = $producer;
         }
         return self::$kafkaConsumerMap[$key];
