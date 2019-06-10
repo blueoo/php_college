@@ -79,4 +79,9 @@ class KafkaConsumer
         return $this->consumer->consume($timeout);
     }
 
+    public function commit(){
+
+        return $this->consumer->commit();
+    }
+
 }

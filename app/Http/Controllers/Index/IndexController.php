@@ -123,9 +123,9 @@ class IndexController extends Controller
      */
     public function kafkaProducer(Request $request)
     {
-        $producer = KafkaProducerFactory::factory('sa_ae_product');
+        $producer = KafkaProducerFactory::factory('test_demo');
 
-        $producer->produceMessage('ee');
+        $producer->produceMessage('kafka');
         return 'hello';
     }
 
@@ -189,7 +189,7 @@ class IndexController extends Controller
 
     public function export()
     {
-        phpinfo();
+
         return 'export';
     }
 

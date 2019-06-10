@@ -32,8 +32,9 @@ class KafkaConsumer extends Command
     {
         $config = [];
         $config['group.id'] = 'test_demo';
+        $config['enable.auto.commit'] = 'false';
         $topic_config['auto.offset.reset'] = 'earliest';
-        $consumer = KafkaConsumerFactory::factory(['sa_ae_product'], 'default', $config, $topic_config);
+        $consumer = KafkaConsumerFactory::factory(['test_demo'], 'default', $config, $topic_config);
         while (true) {
             $msg = $consumer->consume(120 * 1000);
             if (null === $msg) {
@@ -42,7 +43,11 @@ class KafkaConsumer extends Command
                 echo $msg->errstr(), "\n";
             } else {
                 var_dump($msg);
+
+
+                $consumer->commit();
             }
+
         }
 
 
